@@ -1,1 +1,1 @@
-# Sankore
+# Sankore Outbreaks and Treated Areas
