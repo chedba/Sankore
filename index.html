@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 1019px;
+            height: 550px;
+        }
+        </style>
+        <title>SANKORE TREATMENT</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Sankore_Boundary_1.js"></script>
+        <script src="data/OB_Area_2.js"></script>
+        <script src="data/Treated_Area_3.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#fb9a99',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#fb9a99',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[6.279210903608135,-3.2069534415396888],[7.033496297406603,-1.8084297909007556]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleHybridSatellite_0');
+        map.getPane('pane_GoogleHybridSatellite_0').style.zIndex = 400;
+        var layer_GoogleHybridSatellite_0 = L.tileLayer('http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleHybridSatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 22
+        });
+        layer_GoogleHybridSatellite_0;
+        map.addLayer(layer_GoogleHybridSatellite_0);
+        function pop_Sankore_Boundary_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">DISTRICT</th>\
+                        <td>' + (feature.properties['DISTRICT'] !== null ? autolinker.link(feature.properties['DISTRICT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Sankore_Boundary_1_0() {
+            return {
+                pane: 'pane_Sankore_Boundary_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Sankore_Boundary_1');
+        map.getPane('pane_Sankore_Boundary_1').style.zIndex = 401;
+        map.getPane('pane_Sankore_Boundary_1').style['mix-blend-mode'] = 'normal';
+        var layer_Sankore_Boundary_1 = new L.geoJson(json_Sankore_Boundary_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Sankore_Boundary_1',
+            layerName: 'layer_Sankore_Boundary_1',
+            pane: 'pane_Sankore_Boundary_1',
+            onEachFeature: pop_Sankore_Boundary_1,
+            style: style_Sankore_Boundary_1_0,
+        });
+        bounds_group.addLayer(layer_Sankore_Boundary_1);
+        map.addLayer(layer_Sankore_Boundary_1);
+        function pop_OB_Area_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OB_ID</th>\
+                        <td>' + (feature.properties['OB_ID'] !== null ? autolinker.link(feature.properties['OB_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AREA_HA</th>\
+                        <td>' + (feature.properties['AREA_HA'] !== null ? autolinker.link(feature.properties['AREA_HA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_OB_Area_2_0() {
+            return {
+                pane: 'pane_OB_Area_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,9,12,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_OB_Area_2');
+        map.getPane('pane_OB_Area_2').style.zIndex = 402;
+        map.getPane('pane_OB_Area_2').style['mix-blend-mode'] = 'normal';
+        var layer_OB_Area_2 = new L.geoJson(json_OB_Area_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_OB_Area_2',
+            layerName: 'layer_OB_Area_2',
+            pane: 'pane_OB_Area_2',
+            onEachFeature: pop_OB_Area_2,
+            style: style_OB_Area_2_0,
+        });
+        bounds_group.addLayer(layer_OB_Area_2);
+        map.addLayer(layer_OB_Area_2);
+        function pop_Treated_Area_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">FARM_LOC</th>\
+                        <td>' + (feature.properties['FARM_LOC'] !== null ? autolinker.link(feature.properties['FARM_LOC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">FARMER_NAM</th>\
+                        <td>' + (feature.properties['FARMER_NAM'] !== null ? autolinker.link(feature.properties['FARMER_NAM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AREA_HA</th>\
+                        <td>' + (feature.properties['AREA_HA'] !== null ? autolinker.link(feature.properties['AREA_HA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Treated_Area_3_0() {
+            return {
+                pane: 'pane_Treated_Area_3',
+                opacity: 1,
+                color: 'rgba(247,225,55,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,51,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Treated_Area_3');
+        map.getPane('pane_Treated_Area_3').style.zIndex = 403;
+        map.getPane('pane_Treated_Area_3').style['mix-blend-mode'] = 'normal';
+        var layer_Treated_Area_3 = new L.geoJson(json_Treated_Area_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Treated_Area_3',
+            layerName: 'layer_Treated_Area_3',
+            pane: 'pane_Treated_Area_3',
+            onEachFeature: pop_Treated_Area_3,
+            style: style_Treated_Area_3_0,
+        });
+        bounds_group.addLayer(layer_Treated_Area_3);
+        map.addLayer(layer_Treated_Area_3);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>SANKORE TREATMENT</h2>';
+            };
+            title.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Treated_Area_3.png" /> Treated_Area': layer_Treated_Area_3,'<img src="legend/OB_Area_2.png" /> OB_Area': layer_OB_Area_2,'<img src="legend/Sankore_Boundary_1.png" /> Sankore_Boundary': layer_Sankore_Boundary_1,"Google Hybrid Satellite": layer_GoogleHybridSatellite_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"AREA_HA": "real","FARM_LOC": "str","DISTRICT": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_AREA_HA = document.createElement("div");
+            div_AREA_HA.id = "div_AREA_HA";
+            div_AREA_HA.className = "slider";
+            document.getElementById("menu").appendChild(div_AREA_HA);
+            var lab_AREA_HA = document.createElement('div');
+            lab_AREA_HA.innerHTML  = 'AREA_HA: <span id="val_AREA_HA"></span>';
+            lab_AREA_HA.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_AREA_HA);
+            var reset_AREA_HA = document.createElement('div');
+            reset_AREA_HA.innerHTML = 'clear filter';
+            reset_AREA_HA.className = 'filterlabel';
+            lab_AREA_HA.className = 'filterlabel';
+            reset_AREA_HA.onclick = function() {
+                sel_AREA_HA.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_AREA_HA);
+            var sel_AREA_HA = document.getElementById('div_AREA_HA');
+            noUiSlider.create(sel_AREA_HA, {
+                connect: true,
+                start: [0.00515260189972, 188.832087228],
+                range: {
+                min: 0.00515260189972,
+                max: 188.832087228
+                }
+            });
+            sel_AREA_HA.noUiSlider.on('update', function (values) {
+            val_AREA_HA = document.getElementById('val_AREA_HA');
+            val_AREA_HA.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_FARM_LOC = document.createElement('div');
+            div_FARM_LOC.id = "div_FARM_LOC";
+            div_FARM_LOC.className= "filterselect";
+            document.getElementById("menu").appendChild(div_FARM_LOC);
+            sel_FARM_LOC = document.createElement('select');
+            sel_FARM_LOC.multiple = true;
+            sel_FARM_LOC.size = 10;
+            sel_FARM_LOC.id = "sel_FARM_LOC";
+            var FARM_LOC_options_str = "<option value='' unselected></option>";
+            sel_FARM_LOC.onchange = function(){filterFunc()};
+            FARM_LOC_options_str  += '<option value="NULL">NULL</option>';
+            FARM_LOC_options_str  += '<option value="(B0SOMPEM AKYI)">(B0SOMPEM AKYI)</option>';
+            FARM_LOC_options_str  += '<option value="(LARBIKR0M)">(LARBIKR0M)</option>';
+            FARM_LOC_options_str  += '<option value="0MANHENE">0MANHENE</option>';
+            FARM_LOC_options_str  += '<option value="0NWE">0NWE</option>';
+            FARM_LOC_options_str  += '<option value="0WUSUKROM">0WUSUKROM</option>';
+            FARM_LOC_options_str  += '<option value="AB0ABOSO">AB0ABOSO</option>';
+            FARM_LOC_options_str  += '<option value="AB0ASO">AB0ASO</option>';
+            FARM_LOC_options_str  += '<option value="AB0DOM">AB0DOM</option>';
+            FARM_LOC_options_str  += '<option value="ABDULLAIKR0M (AHWIA)">ABDULLAIKR0M (AHWIA)</option>';
+            FARM_LOC_options_str  += '<option value="ABOABOSO">ABOABOSO</option>';
+            FARM_LOC_options_str  += '<option value="ABOASO">ABOASO</option>';
+            FARM_LOC_options_str  += '<option value="ABODOM">ABODOM</option>';
+            FARM_LOC_options_str  += '<option value="ABONGOKROM">ABONGOKROM</option>';
+            FARM_LOC_options_str  += '<option value="ABUKR0M">ABUKR0M</option>';
+            FARM_LOC_options_str  += '<option value="ABUKROM">ABUKROM</option>';
+            FARM_LOC_options_str  += '<option value="ABUOM">ABUOM</option>';
+            FARM_LOC_options_str  += '<option value="ABUR0KYIRE">ABUR0KYIRE</option>';
+            FARM_LOC_options_str  += '<option value="ABUROKYIRE">ABUROKYIRE</option>';
+            FARM_LOC_options_str  += '<option value="ACHAIAHKR0M">ACHAIAHKR0M</option>';
+            FARM_LOC_options_str  += '<option value="ACHEAMP0NGKROM">ACHEAMP0NGKROM</option>';
+            FARM_LOC_options_str  += '<option value="ACHEAMPON BEPOSO">ACHEAMPON BEPOSO</option>';
+            FARM_LOC_options_str  += '<option value="ACHEAMPONG BEPOSO">ACHEAMPONG BEPOSO</option>';
+            FARM_LOC_options_str  += '<option value="ACHEAMPONGKROM">ACHEAMPONGKROM</option>';
+            FARM_LOC_options_str  += '<option value="ACHIAAKR0M">ACHIAAKR0M</option>';
+            FARM_LOC_options_str  += '<option value="ACHIAAKROM">ACHIAAKROM</option>';
+            FARM_LOC_options_str  += '<option value="ACHIAKROM">ACHIAKROM</option>';
+            FARM_LOC_options_str  += '<option value="AD0MKROM">AD0MKROM</option>';
+            FARM_LOC_options_str  += '<option value="ADD0KROM">ADD0KROM</option>';
+            FARM_LOC_options_str  += '<option value="ADEHYEMAN">ADEHYEMAN</option>';
+            FARM_LOC_options_str  += '<option value="ADJAREKROM">ADJAREKROM</option>';
+            FARM_LOC_options_str  += '<option value="ADJEIKROM">ADJEIKROM</option>';
+            FARM_LOC_options_str  += '<option value="ADWUMAKAASE">ADWUMAKAASE</option>';
+            FARM_LOC_options_str  += '<option value="ADWUMAKASE">ADWUMAKASE</option>';
+            FARM_LOC_options_str  += '<option value="ADWUMAM">ADWUMAM</option>';
+            FARM_LOC_options_str  += '<option value="AF0DOWA">AF0DOWA</option>';
+            FARM_LOC_options_str  += '<option value="AFODOWA">AFODOWA</option>';
+            FARM_LOC_options_str  += '<option value="AGLAGO">AGLAGO</option>';
+            FARM_LOC_options_str  += '<option value="AGYAREKR0M">AGYAREKR0M</option>';
+            FARM_LOC_options_str  += '<option value="AGYAREKROM">AGYAREKROM</option>';
+            FARM_LOC_options_str  += '<option value="AGYAREKRÖM">AGYAREKRÖM</option>';
+            FARM_LOC_options_str  += '<option value="AGYEDABI DIETWA">AGYEDABI DIETWA</option>';
+            FARM_LOC_options_str  += '<option value="AGYEDABI-DIETWA">AGYEDABI-DIETWA</option>';
+            FARM_LOC_options_str  += '<option value="AGYEIKROM">AGYEIKROM</option>';
+            FARM_LOC_options_str  += '<option value="AHIWA">AHIWA</option>';
+            FARM_LOC_options_str  += '<option value="AHIWAA">AHIWAA</option>';
+            FARM_LOC_options_str  += '<option value="AHWIA">AHWIA</option>';
+            FARM_LOC_options_str  += '<option value="AHWIA-AMASAAKR0M">AHWIA-AMASAAKR0M</option>';
+            FARM_LOC_options_str  += '<option value="AHWIAA">AHWIAA</option>';
+            FARM_LOC_options_str  += '<option value="AKRAKAN">AKRAKAN</option>';
+            FARM_LOC_options_str  += '<option value="ALAVANYO">ALAVANYO</option>';
+            FARM_LOC_options_str  += '<option value="ALAWANI">ALAWANI</option>';
+            FARM_LOC_options_str  += '<option value="ALHAJI KROM">ALHAJI KROM</option>';
+            FARM_LOC_options_str  += '<option value="AMADU NKWANTA">AMADU NKWANTA</option>';
+            FARM_LOC_options_str  += '<option value="AMEKUKROM">AMEKUKROM</option>';
+            FARM_LOC_options_str  += '<option value="ANIGYEKR0M">ANIGYEKR0M</option>';
+            FARM_LOC_options_str  += '<option value="ANIGYEKROM">ANIGYEKROM</option>';
+            FARM_LOC_options_str  += '<option value="ANIGYIKROM">ANIGYIKROM</option>';
+            FARM_LOC_options_str  += '<option value="ANUM">ANUM</option>';
+            FARM_LOC_options_str  += '<option value="APPAUKROM">APPAUKROM</option>';
+            FARM_LOC_options_str  += '<option value="APPRAKU">APPRAKU</option>';
+            FARM_LOC_options_str  += '<option value="APPRAKUKR)M">APPRAKUKR)M</option>';
+            FARM_LOC_options_str  += '<option value="APPRAKUKR0M">APPRAKUKR0M</option>';
+            FARM_LOC_options_str  += '<option value="APPRAKUKROM">APPRAKUKROM</option>';
+            FARM_LOC_options_str  += '<option value="ASAMPANAYE">ASAMPANAYE</option>';
+            FARM_LOC_options_str  += '<option value="ASANTE CAMP">ASANTE CAMP</option>';
+            FARM_LOC_options_str  += '<option value="ASAREKROM">ASAREKROM</option>';
+            FARM_LOC_options_str  += '<option value="ASEMPANAYE">ASEMPANAYE</option>';
+            FARM_LOC_options_str  += '<option value="ASIAMAKROM">ASIAMAKROM</option>';
+            FARM_LOC_options_str  += '<option value="ASIBREM">ASIBREM</option>';
+            FARM_LOC_options_str  += '<option value="ASIKASO">ASIKASO</option>';
+            FARM_LOC_options_str  += '<option value="ASU0GYAKROM">ASU0GYAKROM</option>';
+            FARM_LOC_options_str  += '<option value="ATEKYEM">ATEKYEM</option>';
+            FARM_LOC_options_str  += '<option value="ATIAKROM">ATIAKROM</option>';
+            FARM_LOC_options_str  += '<option value="ATTAKR0M">ATTAKR0M</option>';
+            FARM_LOC_options_str  += '<option value="ATTAKROM">ATTAKROM</option>';
+            FARM_LOC_options_str  += '<option value="Achiaakr0">Achiaakr0</option>';
+            FARM_LOC_options_str  += '<option value="Achiaakr0m">Achiaakr0m</option>';
+            FARM_LOC_options_str  += '<option value="Achiaakrom">Achiaakrom</option>';
+            FARM_LOC_options_str  += '<option value="Adehyeman">Adehyeman</option>';
+            FARM_LOC_options_str  += '<option value="Anigyekrom">Anigyekrom</option>';
+            FARM_LOC_options_str  += '<option value="Anum">Anum</option>';
+            FARM_LOC_options_str  += '<option value="ApPRAKUKR0">ApPRAKUKR0</option>';
+            FARM_LOC_options_str  += '<option value="ApPRAKUKRO">ApPRAKUKRO</option>';
+            FARM_LOC_options_str  += '<option value="Apaukrom">Apaukrom</option>';
+            FARM_LOC_options_str  += '<option value="Appaukrom">Appaukrom</option>';
+            FARM_LOC_options_str  += '<option value="Apprakukrom">Apprakukrom</option>';
+            FARM_LOC_options_str  += '<option value="B0AKYEKROM">B0AKYEKROM</option>';
+            FARM_LOC_options_str  += '<option value="B0SOMPEM AKYI)">B0SOMPEM AKYI)</option>';
+            FARM_LOC_options_str  += '<option value="B0SOMPEMAGYA">B0SOMPEMAGYA</option>';
+            FARM_LOC_options_str  += '<option value="B0URKROM">B0URKROM</option>';
+            FARM_LOC_options_str  += '<option value="BAHOAGYA">BAHOAGYA</option>';
+            FARM_LOC_options_str  += '<option value="BARNIE">BARNIE</option>';
+            FARM_LOC_options_str  += '<option value="BEP0SO">BEP0SO</option>';
+            FARM_LOC_options_str  += '<option value="BEP0SO NO 2">BEP0SO NO 2</option>';
+            FARM_LOC_options_str  += '<option value="BEPOSO">BEPOSO</option>';
+            FARM_LOC_options_str  += '<option value="BEPOSO NO 2">BEPOSO NO 2</option>';
+            FARM_LOC_options_str  += '<option value="BETENESUA">BETENESUA</option>';
+            FARM_LOC_options_str  += '<option value="BETNENSUA">BETNENSUA</option>';
+            FARM_LOC_options_str  += '<option value="BOAKYEKROM">BOAKYEKROM</option>';
+            FARM_LOC_options_str  += '<option value="BOBIEKROM">BOBIEKROM</option>';
+            FARM_LOC_options_str  += '<option value="BOSOMPEMAGYA">BOSOMPEMAGYA</option>';
+            FARM_LOC_options_str  += '<option value="BOURKROM">BOURKROM</option>';
+            FARM_LOC_options_str  += '<option value="BOWOHOMODEN 1">BOWOHOMODEN 1</option>';
+            FARM_LOC_options_str  += '<option value="BOWOHOMODEN 2">BOWOHOMODEN 2</option>';
+            FARM_LOC_options_str  += '<option value="BOWOHOMODEN NO.2">BOWOHOMODEN NO.2</option>';
+            FARM_LOC_options_str  += '<option value="BOWOHOMODEN No.2">BOWOHOMODEN No.2</option>';
+            FARM_LOC_options_str  += '<option value="BOWOHOMODIN">BOWOHOMODIN</option>';
+            FARM_LOC_options_str  += '<option value="BOWOHOMODIN 1">BOWOHOMODIN 1</option>';
+            FARM_LOC_options_str  += '<option value="BOWOHOMODIN 2">BOWOHOMODIN 2</option>';
+            FARM_LOC_options_str  += '<option value="CAESAR KROM">CAESAR KROM</option>';
+            FARM_LOC_options_str  += '<option value="CAESARKROM">CAESARKROM</option>';
+            FARM_LOC_options_str  += '<option value="CAESERKR0M">CAESERKR0M</option>';
+            FARM_LOC_options_str  += '<option value="CAESERKROM">CAESERKROM</option>';
+            FARM_LOC_options_str  += '<option value="CAMP">CAMP</option>';
+            FARM_LOC_options_str  += '<option value="CAMP  1">CAMP  1</option>';
+            FARM_LOC_options_str  += '<option value="CAMP 1">CAMP 1</option>';
+            FARM_LOC_options_str  += '<option value="CAMP1">CAMP1</option>';
+            FARM_LOC_options_str  += '<option value="CASERKROM">CASERKROM</option>';
+            FARM_LOC_options_str  += '<option value="DANKWAKR0M">DANKWAKR0M</option>';
+            FARM_LOC_options_str  += '<option value="DANKWAKROM">DANKWAKROM</option>';
+            FARM_LOC_options_str  += '<option value="DANKWKROM">DANKWKROM</option>';
+            FARM_LOC_options_str  += '<option value="DEDEKR0M">DEDEKR0M</option>';
+            FARM_LOC_options_str  += '<option value="DEDEKROM">DEDEKROM</option>';
+            FARM_LOC_options_str  += '<option value="DENYASE">DENYASE</option>';
+            FARM_LOC_options_str  += '<option value="DIETWA">DIETWA</option>';
+            FARM_LOC_options_str  += '<option value="DODOWA">DODOWA</option>';
+            FARM_LOC_options_str  += '<option value="DONKORKROM">DONKORKROM</option>';
+            FARM_LOC_options_str  += '<option value="DWUMAKR0M">DWUMAKR0M</option>';
+            FARM_LOC_options_str  += '<option value="DWUMAKROM">DWUMAKROM</option>';
+            FARM_LOC_options_str  += '<option value="Dankwakrom">Dankwakrom</option>';
+            FARM_LOC_options_str  += '<option value="Dedekr0m">Dedekr0m</option>';
+            FARM_LOC_options_str  += '<option value="EDWUMAKASE">EDWUMAKASE</option>';
+            FARM_LOC_options_str  += '<option value="EJISU">EJISU</option>';
+            FARM_LOC_options_str  += '<option value="F0SUANO">F0SUANO</option>';
+            FARM_LOC_options_str  += '<option value="FAWOMAN">FAWOMAN</option>';
+            FARM_LOC_options_str  += '<option value="FAWOMANG">FAWOMANG</option>';
+            FARM_LOC_options_str  += '<option value="FOSUANO">FOSUANO</option>';
+            FARM_LOC_options_str  += '<option value="GYATOKROM">GYATOKROM</option>';
+            FARM_LOC_options_str  += '<option value="JAMASI 1">JAMASI 1</option>';
+            FARM_LOC_options_str  += '<option value="JAMASI 2">JAMASI 2</option>';
+            FARM_LOC_options_str  += '<option value="JAMASI NO 2">JAMASI NO 2</option>';
+            FARM_LOC_options_str  += '<option value="JAMASI1">JAMASI1</option>';
+            FARM_LOC_options_str  += '<option value="Jamasi1">Jamasi1</option>';
+            FARM_LOC_options_str  += '<option value="K0FIBENKROM">K0FIBENKROM</option>';
+            FARM_LOC_options_str  += '<option value="K0KOOSO 1">K0KOOSO 1</option>';
+            FARM_LOC_options_str  += '<option value="K0OFIEKROM">K0OFIEKROM</option>';
+            FARM_LOC_options_str  += '<option value="KOBEA">KOBEA</option>';
+            FARM_LOC_options_str  += '<option value="KOKOOSO 1">KOKOOSO 1</option>';
+            FARM_LOC_options_str  += '<option value="KOKOOSO 2">KOKOOSO 2</option>';
+            FARM_LOC_options_str  += '<option value="KOKOOSO 3">KOKOOSO 3</option>';
+            FARM_LOC_options_str  += '<option value="KOOFIEKROM">KOOFIEKROM</option>';
+            FARM_LOC_options_str  += '<option value="KWAHU FL0WERS">KWAHU FL0WERS</option>';
+            FARM_LOC_options_str  += '<option value="KWAHU FLOWERS">KWAHU FLOWERS</option>';
+            FARM_LOC_options_str  += '<option value="LARBIKR0M">LARBIKR0M</option>';
+            FARM_LOC_options_str  += '<option value="LARBIKROM">LARBIKROM</option>';
+            FARM_LOC_options_str  += '<option value="M0TOPENSOE">M0TOPENSOE</option>';
+            FARM_LOC_options_str  += '<option value="MAMPONG">MAMPONG</option>';
+            FARM_LOC_options_str  += '<option value="MANHYIA">MANHYIA</option>';
+            FARM_LOC_options_str  += '<option value="MANHYIA NUMBER 4">MANHYIA NUMBER 4</option>';
+            FARM_LOC_options_str  += '<option value="MANTUKWA">MANTUKWA</option>';
+            FARM_LOC_options_str  += '<option value="MANUKROM">MANUKROM</option>';
+            FARM_LOC_options_str  += '<option value="MARF0KROM">MARF0KROM</option>';
+            FARM_LOC_options_str  += '<option value="MARFOKROM">MARFOKROM</option>';
+            FARM_LOC_options_str  += '<option value="MBEP0M">MBEP0M</option>';
+            FARM_LOC_options_str  += '<option value="MBEPOM">MBEPOM</option>';
+            FARM_LOC_options_str  += '<option value="MENSAKROM">MENSAKROM</option>';
+            FARM_LOC_options_str  += '<option value="MENTUKWA">MENTUKWA</option>';
+            FARM_LOC_options_str  += '<option value="MENTUMI">MENTUMI</option>';
+            FARM_LOC_options_str  += '<option value="MEP0M">MEP0M</option>';
+            FARM_LOC_options_str  += '<option value="MEPOM">MEPOM</option>';
+            FARM_LOC_options_str  += '<option value="MEPOM 1">MEPOM 1</option>';
+            FARM_LOC_options_str  += '<option value="MEPOM1">MEPOM1</option>';
+            FARM_LOC_options_str  += '<option value="MINTUMI">MINTUMI</option>';
+            FARM_LOC_options_str  += '<option value="MMEP0M 1">MMEP0M 1</option>';
+            FARM_LOC_options_str  += '<option value="MMEPOM">MMEPOM</option>';
+            FARM_LOC_options_str  += '<option value="MMEPOM 1">MMEPOM 1</option>';
+            FARM_LOC_options_str  += '<option value="MMESO">MMESO</option>';
+            FARM_LOC_options_str  += '<option value="MMIPOM">MMIPOM</option>';
+            FARM_LOC_options_str  += '<option value="MOSIKROM">MOSIKROM</option>';
+            FARM_LOC_options_str  += '<option value="MOSSIKROM">MOSSIKROM</option>';
+            FARM_LOC_options_str  += '<option value="MOTOPENSO">MOTOPENSO</option>';
+            FARM_LOC_options_str  += '<option value="MOTOPENSOE">MOTOPENSOE</option>';
+            FARM_LOC_options_str  += '<option value="MUSTAPHAKR0M">MUSTAPHAKR0M</option>';
+            FARM_LOC_options_str  += '<option value="MUSTAPHAKROM">MUSTAPHAKROM</option>';
+            FARM_LOC_options_str  += '<option value="Mentukwa">Mentukwa</option>';
+            FARM_LOC_options_str  += '<option value="NEW TOWN">NEW TOWN</option>';
+            FARM_LOC_options_str  += '<option value="NHWENE">NHWENE</option>';
+            FARM_LOC_options_str  += '<option value="NKAWIE">NKAWIE</option>';
+            FARM_LOC_options_str  += '<option value="NKWANA">NKWANA</option>';
+            FARM_LOC_options_str  += '<option value="NKWANTA">NKWANTA</option>';
+            FARM_LOC_options_str  += '<option value="NKWANTA JEMPEKROM">NKWANTA JEMPEKROM</option>';
+            FARM_LOC_options_str  += '<option value="NKWANTA NEW TOWN">NKWANTA NEW TOWN</option>';
+            FARM_LOC_options_str  += '<option value="NKWANTA NEW TOWN FARM 1">NKWANTA NEW TOWN FARM 1</option>';
+            FARM_LOC_options_str  += '<option value="NKWANTA NEW TOWN FARM 2">NKWANTA NEW TOWN FARM 2</option>';
+            FARM_LOC_options_str  += '<option value="NKWANTAJEMPEKROM">NKWANTAJEMPEKROM</option>';
+            FARM_LOC_options_str  += '<option value="NTONSO">NTONSO</option>';
+            FARM_LOC_options_str  += '<option value="NYAMEADISA">NYAMEADISA</option>';
+            FARM_LOC_options_str  += '<option value="NYAMEADISAA">NYAMEADISAA</option>';
+            FARM_LOC_options_str  += '<option value="NYAMEBEKYERE">NYAMEBEKYERE</option>';
+            FARM_LOC_options_str  += '<option value="ODUROKROM">ODUROKROM</option>';
+            FARM_LOC_options_str  += '<option value="OMANHENEAKRUA">OMANHENEAKRUA</option>';
+            FARM_LOC_options_str  += '<option value="OMANHENEAKURA">OMANHENEAKURA</option>';
+            FARM_LOC_options_str  += '<option value="ONWE">ONWE</option>';
+            FARM_LOC_options_str  += '<option value="OPPONGKROM">OPPONGKROM</option>';
+            FARM_LOC_options_str  += '<option value="OWUSUKROM">OWUSUKROM</option>';
+            FARM_LOC_options_str  += '<option value="P0KUKROM">P0KUKROM</option>';
+            FARM_LOC_options_str  += '<option value="P0KUKUROM">P0KUKUROM</option>';
+            FARM_LOC_options_str  += '<option value="PAFO">PAFO</option>';
+            FARM_LOC_options_str  += '<option value="PASEWU">PASEWU</option>';
+            FARM_LOC_options_str  += '<option value="PESEWU">PESEWU</option>';
+            FARM_LOC_options_str  += '<option value="POKUKROM">POKUKROM</option>';
+            FARM_LOC_options_str  += '<option value="POKUKURO">POKUKURO</option>';
+            FARM_LOC_options_str  += '<option value="POKUKUROM">POKUKUROM</option>';
+            FARM_LOC_options_str  += '<option value="SAMAMPA">SAMAMPA</option>';
+            FARM_LOC_options_str  += '<option value="SAMANPA">SAMANPA</option>';
+            FARM_LOC_options_str  += '<option value="SANK0RE">SANK0RE</option>';
+            FARM_LOC_options_str  += '<option value="SANKORE">SANKORE</option>';
+            FARM_LOC_options_str  += '<option value="SARFOKROM">SARFOKROM</option>';
+            FARM_LOC_options_str  += '<option value="TANO DUMASI">TANO DUMASI</option>';
+            FARM_LOC_options_str  += '<option value="TANOSO">TANOSO</option>';
+            FARM_LOC_options_str  += '<option value="TETTEKWA0">TETTEKWA0</option>';
+            FARM_LOC_options_str  += '<option value="TETTEKWAO">TETTEKWAO</option>';
+            FARM_LOC_options_str  += '<option value="THOMAS KROM">THOMAS KROM</option>';
+            FARM_LOC_options_str  += '<option value="THOMASKROM">THOMASKROM</option>';
+            FARM_LOC_options_str  += '<option value="TWENEB0AH">TWENEB0AH</option>';
+            FARM_LOC_options_str  += '<option value="TWENEBOAH">TWENEBOAH</option>';
+            FARM_LOC_options_str  += '<option value="YABE">YABE</option>';
+            FARM_LOC_options_str  += '<option value="YARMANO">YARMANO</option>';
+            FARM_LOC_options_str  += '<option value="YAWBAAFI">YAWBAAFI</option>';
+            FARM_LOC_options_str  += '<option value="YAWBAAFIKR0M">YAWBAAFIKR0M</option>';
+            FARM_LOC_options_str  += '<option value="YAWBAAFIKROM">YAWBAAFIKROM</option>';
+            FARM_LOC_options_str  += '<option value="YAWMARNO">YAWMARNO</option>';
+            FARM_LOC_options_str  += '<option value="anum">anum</option>';
+            sel_FARM_LOC.innerHTML = FARM_LOC_options_str;
+            div_FARM_LOC.appendChild(sel_FARM_LOC);
+            var lab_FARM_LOC = document.createElement('div');
+            lab_FARM_LOC.innerHTML = 'FARM_LOC';
+            lab_FARM_LOC.className = 'filterlabel';
+            div_FARM_LOC.appendChild(lab_FARM_LOC);
+            var reset_FARM_LOC = document.createElement('div');
+            reset_FARM_LOC.innerHTML = 'clear filter';
+            reset_FARM_LOC.className = 'filterlabel';
+            reset_FARM_LOC.onclick = function() {
+                var options = document.getElementById("sel_FARM_LOC").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_FARM_LOC.appendChild(reset_FARM_LOC);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_DISTRICT = document.createElement('div');
+            div_DISTRICT.id = "div_DISTRICT";
+            div_DISTRICT.className= "filterselect";
+            document.getElementById("menu").appendChild(div_DISTRICT);
+            sel_DISTRICT = document.createElement('select');
+            sel_DISTRICT.multiple = true;
+            sel_DISTRICT.size = 1;
+            sel_DISTRICT.id = "sel_DISTRICT";
+            var DISTRICT_options_str = "<option value='' unselected></option>";
+            sel_DISTRICT.onchange = function(){filterFunc()};
+            DISTRICT_options_str  += '<option value="SANKORE">SANKORE</option>';
+            sel_DISTRICT.innerHTML = DISTRICT_options_str;
+            div_DISTRICT.appendChild(sel_DISTRICT);
+            var lab_DISTRICT = document.createElement('div');
+            lab_DISTRICT.innerHTML = 'DISTRICT';
+            lab_DISTRICT.className = 'filterlabel';
+            div_DISTRICT.appendChild(lab_DISTRICT);
+            var reset_DISTRICT = document.createElement('div');
+            reset_DISTRICT.innerHTML = 'clear filter';
+            reset_DISTRICT.className = 'filterlabel';
+            reset_DISTRICT.onclick = function() {
+                var options = document.getElementById("sel_DISTRICT").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_DISTRICT.appendChild(reset_DISTRICT);
+        </script>
+    </body>
+</html>
